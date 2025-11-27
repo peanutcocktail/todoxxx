@@ -1,0 +1,5 @@
+{
+  "title": "Todo App",
+  "description": "A focused todo tracker with a FastAPI backend and clean web UI.",
+  "icon": "icon.svg"
+}

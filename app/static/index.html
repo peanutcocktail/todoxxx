@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Todo App</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --accent: #38bdf8;
+      --accent-strong: #0ea5e9;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --stroke: rgba(255,255,255,0.08);
+      --shadow: 0 10px 50px rgba(0,0,0,0.35);
+      --radius: 16px;
+      --gradient: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.12), transparent 40%), radial-gradient(circle at 80% 0%, rgba(14,165,233,0.25), transparent 40%);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Space Grotesk", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.01em;
+      display: flex;
+      justify-content: center;
+      padding: 32px 18px 48px;
+      background-image: var(--gradient);
+    }
+    .shell {
+      width: min(960px, 100%);
+      display: grid;
+      gap: 18px;
+    }
+    header {
+      background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(14,165,233,0.08));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      border-radius: calc(var(--radius) + 4px);
+      padding: 24px 24px 18px;
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0 0 8px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 700;
+    }
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      max-width: 720px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .composer {
+      display: grid;
+      gap: 10px;
+    }
+    form {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(56,189,248,0.15);
+    }
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #0b0f1a;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      box-shadow: 0 12px 30px rgba(14,165,233,0.22);
+    }
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); box-shadow: 0 6px 20px rgba(14,165,233,0.2); }
+    .ghost {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      box-shadow: none;
+    }
+    .list-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .list-head h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .todo {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .todo:hover {
+      border-color: rgba(56,189,248,0.6);
+      background: rgba(56,189,248,0.05);
+    }
+    .todo.done .title {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.4;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+    }
+    .pill.done {
+      border-color: var(--accent);
+      background: rgba(56,189,248,0.16);
+    }
+    .pill svg { width: 14px; height: 14px; }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 16px 0 4px;
+    }
+    .status {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+    @media (max-width: 720px) {
+      form { flex-direction: column; align-items: stretch; }
+      button { width: 100%; }
+      .todo { grid-template-columns: auto 1fr; grid-template-rows: auto auto; }
+      .todo .meta { grid-column: 2; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <p class="eyebrow">Todo app</p>
+      <h1>Organize the day without losing momentum.</h1>
+      <p class="lead">Add tasks, mark progress, and keep everything in one fast, local-friendly view.</p>
+    </header>
+
+    <section class="card composer">
+      <form id="todo-form">
+        <input id="todo-input" name="title" type="text" placeholder="Add a new todo (e.g. Ship release notes)" autocomplete="off" required>
+        <button type="submit">Save task</button>
+      </form>
+      <p class="status" id="status">Press Enter to add a task. Everything persists on your machine.</p>
+    </section>
+
+    <section class="card">
+      <div class="list-head">
+        <h2>Tasks</h2>
+        <button id="refresh" class="ghost" type="button">Refresh</button>
+      </div>
+      <ul id="todo-list"></ul>
+    </section>
+  </main>
+
+  <script>
+    const apiBase = "/api/todos";
+    const listEl = document.getElementById("todo-list");
+    const inputEl = document.getElementById("todo-input");
+    const formEl = document.getElementById("todo-form");
+    const statusEl = document.getElementById("status");
+
+    const svgCheck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    const svgCircle = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="7"/></svg>';
+
+    const notify = (message, tone = "muted") => {
+      statusEl.textContent = message;
+      statusEl.style.color = tone === "error" ? "#fca5a5" : "var(--muted)";
+    };
+
+    const request = async (url, options = {}) => {
+      try {
+        const res = await fetch(url, { headers: { "Content-Type": "application/json" }, ...options });
+        if (res.status === 204) return null;
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "Request failed");
+        return data;
+      } catch (error) {
+        notify(error.message, "error");
+        throw error;
+      }
+    };
+
+    const renderTodos = (todos) => {
+      listEl.innerHTML = "";
+      if (!todos.length) {
+        listEl.innerHTML = '<li class="empty">No todos yet. Start by adding a task above.</li>';
+        return;
+      }
+      todos.forEach((todo) => {
+        const item = document.createElement("li");
+        item.className = `todo ${todo.completed ? "done" : ""}`;
+
+        const checkbox = document.createElement("button");
+        checkbox.className = `pill ${todo.completed ? "done" : ""}`;
+        checkbox.innerHTML = todo.completed ? svgCheck : svgCircle;
+        checkbox.title = todo.completed ? "Mark as incomplete" : "Mark as done";
+        checkbox.addEventListener("click", async () => {
+          await request(`${apiBase}/${todo.id}`, {
+            method: "PATCH",
+            body: JSON.stringify({ completed: !todo.completed }),
+          });
+          loadTodos();
+        });
+
+        const textWrap = document.createElement("div");
+        textWrap.innerHTML = `<p class="title">${todo.title}</p><div class="meta">Created ${new Date(todo.created_at).toLocaleString()}</div>`;
+
+        const remove = document.createElement("button");
+        remove.className = "ghost";
+        remove.textContent = "Delete";
+        remove.addEventListener("click", async () => {
+          await request(`${apiBase}/${todo.id}`, { method: "DELETE" });
+          loadTodos();
+        });
+
+        item.append(checkbox, textWrap, remove);
+        listEl.appendChild(item);
+      });
+    };
+
+    const loadTodos = async () => {
+      notify("Loading tasks...");
+      const todos = await request(apiBase);
+      renderTodos(todos);
+      notify(`${todos.length} task${todos.length === 1 ? "" : "s"} loaded`);
+    };
+
+    formEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const title = inputEl.value.trim();
+      if (!title) return;
+      await request(apiBase, { method: "POST", body: JSON.stringify({ title }) });
+      inputEl.value = "";
+      notify("Task added");
+      loadTodos();
+    });
+
+    document.getElementById("refresh").addEventListener("click", loadTodos);
+    loadTodos();
+  </script>
+</body>
+</html>
