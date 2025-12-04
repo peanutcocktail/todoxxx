@@ -2,6 +2,15 @@ module.exports = {
   daemon: true,
   run: [
     {
+      method: "log",
+      params: {
+        json2: {
+          vram: "{{vram}}",
+          ram: "{{ram}}",
+        }
+      }
+    },
+    {
       method: "shell.run",
       params: {
         venv: "venv",
