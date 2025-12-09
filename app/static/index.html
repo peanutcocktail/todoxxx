@@ -7,16 +7,17 @@
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
     :root {
-      --bg: #0f172a;
-      --panel: #111827;
+      color-scheme: light;
+      --bg: #f9fafb;
+      --panel: #ffffff;
       --accent: #38bdf8;
       --accent-strong: #0ea5e9;
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --stroke: rgba(255,255,255,0.08);
-      --shadow: 0 10px 50px rgba(0,0,0,0.35);
+      --text: #0f172a;
+      --muted: #6b7280;
+      --stroke: rgba(15,23,42,0.08);
+      --shadow: 0 10px 40px rgba(15,23,42,0.08);
       --radius: 16px;
-      --gradient: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.12), transparent 40%), radial-gradient(circle at 80% 0%, rgba(14,165,233,0.25), transparent 40%);
+      --gradient: radial-gradient(circle at 20% 20%, rgba(56,189,248,0.12), transparent 40%), radial-gradient(circle at 80% 0%, rgba(14,165,233,0.16), transparent 40%);
     }
     * { box-sizing: border-box; }
     body {
@@ -81,7 +82,7 @@
       padding: 14px 16px;
       border-radius: 12px;
       border: 1px solid var(--stroke);
-      background: rgba(255,255,255,0.02);
+      background: #f9fafb;
       color: var(--text);
       font-size: 16px;
       outline: none;
@@ -105,7 +106,7 @@
     button:hover { transform: translateY(-1px); }
     button:active { transform: translateY(0); box-shadow: 0 6px 20px rgba(14,165,233,0.2); }
     .ghost {
-      background: rgba(255,255,255,0.04);
+      background: rgba(15,23,42,0.03);
       color: var(--text);
       box-shadow: none;
     }
@@ -135,7 +136,7 @@
       padding: 14px 12px;
       border-radius: 12px;
       border: 1px solid var(--stroke);
-      background: rgba(255,255,255,0.02);
+      background: #f9fafb;
       transition: border-color 0.2s ease, background 0.2s ease;
     }
     .todo:hover {
@@ -164,7 +165,7 @@
       height: 22px;
       border-radius: 50%;
       border: 1px solid var(--stroke);
-      background: rgba(255,255,255,0.03);
+      background: #f9fafb;
       cursor: pointer;
     }
     .pill.done {
